@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: userprofile-deployment
-  namespace: banti
+  name: {{ .Release.Name }}-userprofile
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: {{ .Values.userprofile.replicas }}
   selector:
     matchLabels:
-      app: userprofile
+      app: {{ .Release.Name }}-userprofile
   template:
     metadata:
       labels:
-        app: userprofile
+        app: {{ .Release.Name }}-userprofile
     spec:
       containers:
         - name: usernode-js
