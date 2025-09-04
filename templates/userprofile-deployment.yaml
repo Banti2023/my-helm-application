@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userprofile-deployment
+  namespace: banti
+spec:
+  replicas: {{ .Values.userprofile.replicas }}
+  selector:
+    matchLabels:
+      app: userprofile
+  template:
+    metadata:
+      labels:
+        app: userprofile
+    spec:
+      containers:
+        - name: usernode-js
+          image: {{ .Values.userprofile.image }}
+          ports:
+            - containerPort: {{ .Values.userprofile.port }}
+          env:
+            - name: MONGODB_URI
+              value: {{ .Values.userprofile.mongoUri | quote }}
+            - name: SESSION_SECRET
+              value: {{ .Values.userprofile.sessionSecret | quote }}
+            - name: EMAIL_USER
+              value: {{ .Values.userprofile.emailUser | quote }}
+            - name: EMAIL_PASS
+              value: {{ .Values.userprofile.emailPass | quote }}
+            - name: PORT
+              value: {{ .Values.userprofile.port | quote }}
